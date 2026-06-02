@@ -122,14 +122,9 @@ run(function()
 end)
 
 
-getgenv()._aeroTierReady = true
 local function getAccountTier(player)
     return 0
 end
-
-getgenv().getAeroTier = function(player)
-    return getAccountTier(player)
-end  
 for _, v in vape.Modules do
 	if v.Category == 'Combat' or v.Category == 'Render' then
 		vape:Remove(i)
