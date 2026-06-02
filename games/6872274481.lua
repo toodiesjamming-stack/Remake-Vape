@@ -1,7 +1,7 @@
 local run = function(func)
     local ok, err = pcall(func)
     if not ok then
-        warn('[AEROV4] module failed to load: ' .. tostring(err))
+        warn('[SKIDV4] module failed to load: ' .. tostring(err))
     end
 end
 local vapeEvents = setmetatable({}, {
@@ -130,9 +130,6 @@ local AntiFallPart
 local bedwars, remotes, sides, oldinvrender, oldSwing = {}, {}, {}
 local originalKnit
 local function getAccountTier(player)
-	if getgenv().getAccountTier then
-		return getgenv().getAccountTier(player)
-	end
 	return 0
 end  
 
@@ -2818,7 +2815,7 @@ run(function()
 
     local function createkitrender(plr)
         local icon = Instance.new("ImageLabel")
-        icon.Name = "AeroV4KitRender" 
+        icon.Name = "SKIDV4KitRender" 
         icon.AnchorPoint = Vector2.new(1, 0.5)
         icon.BackgroundTransparency = 1
         icon.Position = UDim2.new(1.05, 0, 0.5, 0)
@@ -2850,7 +2847,7 @@ run(function()
         end
         
         for _, v in ipairs(PlayerGui:GetDescendants()) do
-            if v:IsA("ImageLabel") and v.Name == "AeroV4KitRender" then  
+            if v:IsA("ImageLabel") and v.Name == "SKIDV4KitRender" then  
                 v:Destroy()
             end
         end
@@ -2916,7 +2913,7 @@ run(function()
             local card = container:FindFirstChild("1") and container["1"]:FindFirstChild("MatchDraftPlayerCard")
             if not card then return end
             
-            local icon = card:FindFirstChild("AeroV4KitRender")  
+            local icon = card:FindFirstChild("SKIDV4KitRender")  
             if not icon then
                 icon = createkitrender(playerFound)
                 icon.Parent = card
@@ -2951,7 +2948,7 @@ run(function()
     local function createKitLabel(parent, kitImage)
         if kitLabels[parent] then kitLabels[parent]:Destroy() end
         local kitLabel = Instance.new("ImageLabel")
-        kitLabel.Name = "AeroV4KitIcon"
+        kitLabel.Name = "SKIDV4KitIcon"
         kitLabel.Size = UDim2.new(1, 0, 1, 0)
         kitLabel.Position = UDim2.new(1.1, 0, 0, 0)
         kitLabel.BackgroundTransparency = 1
@@ -4735,7 +4732,7 @@ run(function()
 	})
 end)
 
--- aero killaura 
+-- skid killaura 
 local Attacking
 run(function()
     local Killaura
@@ -7117,11 +7114,6 @@ run(function()
 						return s and r or nil
 					end
 
-					if not getgenv().AeroLocalPaid and plr.Player and getgenv().isAeroPaid and getgenv().isAeroPaid(plr.Player) then
-						wasHovering = false
-						return old(...)
-					end
-
 					if not shouldPAWork() then
 						wasHovering = false
 						return old(...)
@@ -7592,19 +7584,19 @@ run(function()
 						elseif typeof(bedwars.ShopTaxController.hasTax) == "boolean" then
 							bedwars.ShopTaxController.hasTax = false
 						else
-							vape:CreateNotification('TaxRemover',`Tax Remover error the type of hasTax is {typeof(bedwars.ShopTaxController.hasTax)} report to aero or soryed`,16,'alert')
+							vape:CreateNotification('TaxRemover',`Tax Remover error the type of hasTax is {typeof(bedwars.ShopTaxController.hasTax)} report to skid`,16,'alert')
 							break
 						end
 						if typeof(bedwars.ShopTaxController.taxedItems) == "table" then
 							bedwars.ShopTaxController.taxedItems = {}
 						else
-							vape:CreateNotification('TaxRemover',`Tax Remover error the type of taxedItems is NOT a TABLE PLEASE report to aero or soryed ASAP`,16,'alert')
+							vape:CreateNotification('TaxRemover',`Tax Remover error the type of taxedItems is NOT a TABLE PLEASE report to skid ASAP`,16,'alert')
 							break
 						end
 						if typeof(bedwars.ShopTaxController.addedTaxMap) == "table" then
 							bedwars.ShopTaxController.addedTaxMap = {}
 						else
-							vape:CreateNotification('TaxRemover',`Tax Remover error the type of addedTaxMap is NOT a TABLE PLEASE report to aero or soryed ASAP`,16,'alert')
+							vape:CreateNotification('TaxRemover',`Tax Remover error the type of addedTaxMap is NOT a TABLE PLEASE report to skid ASAP`,16,'alert')
 							break
 						end
 						task.wait()
@@ -9089,25 +9081,12 @@ run(function()
             end
             if not ent.Player and ent.Character and not ent.Character:FindFirstChildOfClass('Humanoid') then return end
 
-            if ent.Player then
-                local _ntTier = getAccountTier(ent.Player)
-                local _ntMyTier = getAccountTier(lplr)
-                if (_ntTier >= 1 and _ntMyTier == 0) or (_ntTier >= 2 and _ntMyTier <= 1) then return end
-            end
             local entityName = bossDisplayName or (ent.Player and nil) or ent.Character.Name
             Strings[ent] = ent.Player and (DisplayName.Enabled and ent.Player.DisplayName or ent.Player.Name) or entityName
-
-            if ent.Player and getAccountTier(lplr) > 0 then
-                local injData = getgenv()._aeroInjectedUsers and getgenv()._aeroInjectedUsers[ent.Player.UserId]
-                if injData and getAccountTier(lplr) > injData.tier then
-                    Strings[ent] = '<font color="#00FF88">[T'..tostring(injData.tier)..']</font> ' .. Strings[ent]
-                end
-            end
 
             if Health.Enabled then
                 local colorStr = getHealthColorStr(ent)
                 Strings[ent] = Strings[ent]..' <font color="'..colorStr..'">'..math.round(ent.Health)..'</font>'
-            end
 
             if Distance.Enabled then
                 Strings[ent] = '[%s] ' .. Strings[ent]
@@ -9593,11 +9572,6 @@ run(function()
             nametag.Text.Font = 0
             nametag.Text.ZIndex = 2
 
-            if ent.Player then
-                local _ntTier = getAccountTier(ent.Player)
-                local _ntMyTier = getAccountTier(lplr)
-                if (_ntTier >= 1 and _ntMyTier == 0) or (_ntTier >= 2 and _ntMyTier <= 1) then return end
-            end
             local entityName = bossDisplayName or (ent.Player and nil) or ent.Character.Name
             Strings[ent] = ent.Player and (DisplayName.Enabled and ent.Player.DisplayName or ent.Player.Name) or entityName
 
@@ -9688,13 +9662,6 @@ run(function()
             local bossDisplayName = isBoss and getBossDisplayName(ent) or nil
             local entityName = bossDisplayName or (ent.Player and nil) or ent.Character.Name
             Strings[ent] = ent.Player and (DisplayName.Enabled and ent.Player.DisplayName or ent.Player.Name) or entityName
-
-            if ent.Player and getAccountTier(lplr) > 0 then
-                local injData = getgenv()._aeroInjectedUsers and getgenv()._aeroInjectedUsers[ent.Player.UserId]
-                if injData and getAccountTier(lplr) > injData.tier then
-                    Strings[ent] = '<font color="#00FF88">[T'..tostring(injData.tier)..']</font> ' .. Strings[ent]
-                end
-            end
 
             if Health.Enabled then
                 local colorStr = getHealthColorStr(ent)
@@ -29873,7 +29840,7 @@ run(function()
 		elseif Mode.Value == 'Camera' then
 			targetPos = gameCamera.CFrame.Position + gameCamera.CFrame.LookVector * 200
 		else
-			vape:CreateNotification('MouseTP', 'Mode is currently nil. Report to aero or soryed', 6, 'warning')
+			vape:CreateNotification('MouseTP', 'Mode is currently nil. Report to skid', 6, 'warning')
 			return
 		end
 
@@ -29924,7 +29891,7 @@ run(function()
 				)
 			end
 		else
-			vape:CreateNotification('MouseTP', 'Movement is currently nil. Report to aero or soryed', 6, 'warning')
+			vape:CreateNotification('MouseTP', 'Movement is currently nil. Report to skid', 6, 'warning')
 			return
 		end
 	end
@@ -32426,10 +32393,9 @@ run(function()
 
 	local function loadModule(name, minTier)
 		local secret = getSecret()
-		if not secret then warn('[AEROV4] getsecret failed: ' .. name) return end
-		if minTier and (getgenv().getAccountTier and getgenv().getAccountTier(game:GetService('Players').LocalPlayer) or 0) < minTier then return end
+		if not secret then warn('[SKIDV4] getsecret failed: ' .. name) return end
 		local baseUrl = _getBaseUrl()
-		if baseUrl == '' then warn('[AEROV4] no url for module: ' .. name) return end
+		if baseUrl == '' then warn('[SKIDV4] no url for module: ' .. name) return end
 		local ok2, res2 = pcall(function()
 			return _req({ Url = baseUrl .. '/modules/' .. name .. '?uid=' .. uid, Method = 'GET', Headers = { ['Authorization'] = 'Bearer ' .. secret } })
 		end)
@@ -32437,32 +32403,21 @@ run(function()
 			local fn, err = loadstring(res2.Body, name)
 			if fn then
 				local ok3, err3 = pcall(fn)
-				if not ok3 then warn('[AEROV4] module error: ' .. tostring(err3)) end
+				if not ok3 then warn('[SKIDV4] module error: ' .. tostring(err3)) end
 				res2.Body = nil
 			else
-				warn('[AEROV4] loadstring fail on ' .. name .. ': ' .. tostring(err))
+				warn('[SKIDV4] loadstring fail on ' .. name .. ': ' .. tostring(err))
 			end
 		end
 	end
 
 	task.spawn(function()
-		local deadline = tick() + 25
-		while tick() < deadline do
-			if getgenv()._aeroTierReady then break end
-			task.wait(0.5)
-		end
-		local urlDeadline = tick() + 10
-		while tick() < urlDeadline do
-			local u = getgenv()._aerov4_getUrl and getgenv()._aerov4_getUrl()
-			if u and u ~= '' then break end
-			task.wait(0.5)
-		end
-		task.wait(0.5)
-		run(function() loadModule('KrystalDisabler', 3) end)
+		task.wait(1)
+		run(function() loadModule('KrystalDisabler') end)
 		run(function() loadModule('SilentAura') end)
 		run(function() loadModule('CleanKit') end)
 		run(function() loadModule('BackTrack') end)
-		run(function() loadModule('Desync', 1) end)
+		run(function() loadModule('Desync') end)
 		run(function() loadModule('OwlAura') end)
 		run(function() loadModule('Autowin') end)
 	end)
@@ -32487,21 +32442,7 @@ run(function()
 	local function fireSilentAttack(attackData)
 		if not silentAttackRemote then return end
 		local _atkPlr = playersService:GetPlayerFromCharacter(attackData.entityInstance)
-		if _atkPlr then
-			local targetTier = getAccountTier(_atkPlr)
-			if targetTier >= 99 then return end
-			if targetTier == 4 and getAccountTier(lplr) <= 2 then
-				local uid = _atkPlr.UserId
-				local now = tick()
-				if not _saT4HitTick[uid] or now - _saT4HitTick[uid] >= 10 then
-					_saT4HitTick[uid] = now
-					_saT4HitCount[uid] = 0
-				end
-				_saT4HitCount[uid] = (_saT4HitCount[uid] or 0) + 1
-				if _saT4HitCount[uid] > 32 then return end
-			end
-			-- whitelist removed
-		end
+		if _atkPlr then end
 		local selfpos = attackData.validate.selfPosition.value
 		local targetpos = attackData.validate.targetPosition.value
 		local actualDistance = (selfpos - targetpos).Magnitude
@@ -32567,7 +32508,7 @@ run(function()
 	end
 
 	SilentAura = vape.Categories.Combat:CreateModule({
-		Name = 'SilentAura(aero - testing)',
+		Name = 'SilentAura',
 		Function = function(callback)
 			if not callback then return end
 			task.spawn(function()
