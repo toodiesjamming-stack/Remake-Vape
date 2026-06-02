@@ -1,6 +1,4 @@
 local _args = ...
-local _isPaidUser = type(_args) == 'table' and _args.Username and _args.Password
-getgenv().AeroLocalPaid = _isPaidUser and true or false
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
@@ -14,7 +12,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/toodiesjamming-stack/Remake-Vape/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -59,7 +57,7 @@ local function downloadPremadeProfiles(commit)
     end
 
     local success, response = pcall(function()
-        return game:HttpGet('https://api.github.com/repos/poopparty/poopparty/contents/profiles/premade?ref=' .. commit)
+        return game:HttpGet('https://api.github.com/repos/toodiesjamming-stack/Remake-Vape/contents/profiles/premade?ref=' .. commit)
     end)
 
     if success and response then
@@ -87,12 +85,12 @@ end
 
 if not shared.VapeDeveloper then
 	local _, subbed = pcall(function()
-		return game:HttpGet('https://github.com/poopparty/poopparty')
+		return game:HttpGet('https://github.com/toodiesjamming-stack/Remake-Vape')
 	end)
 
 	local commit = 'main'
 	local ok, res = pcall(function()
-		return game:HttpGet('https://api.github.com/repos/poopparty/poopparty/commits/main', true)
+		return game:HttpGet('https://api.github.com/repos/toodiesjamming-stack/Remake-Vape/commits/main', true)
 	end)
 
 	if ok and res then
